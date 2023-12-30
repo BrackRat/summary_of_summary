@@ -103,9 +103,16 @@ const cards = ref([
       fit_option: 'object-contain',
       modal_open: false
     },
+
     {
-      ratio: 1 / 2,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      ratio: 0.6,
+      src: "src/assets/PixPin_2023-12-31_02-02-57.jpg",
+      fit_option: 'object-cover',
+      modal_open: false
+    },
+    {
+      ratio: 0.9,
+      src: "src/assets/PixPin_2023-12-31_02-03-17.jpg",
       fit_option: 'object-cover',
       modal_open: false
     },
@@ -113,19 +120,19 @@ const cards = ref([
   [
     {
       ratio: 2,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      src: "https://pointmetotheplane.boardingarea.com/wp-content/uploads/2019/01/apple-music-png-transparent-logo-1920x457.png",
+      fit_option: 'object-contain',
+      modal_open: false
+    },
+    {
+      ratio: 0.6,
+      src: "src/assets/PixPin_2023-12-31_02-03-28.jpg",
       fit_option: 'object-cover',
       modal_open: false
     },
     {
-      ratio: 1 / 2,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
-      fit_option: 'object-cover',
-      modal_open: false
-    },
-    {
-      ratio: 4 / 1,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      ratio: 0.7,
+      src: "src/assets/PixPin_2023-12-31_02-03-38.jpg",
       fit_option: 'object-cover',
       modal_open: false
     },
@@ -160,6 +167,10 @@ function updateColumnCount() {
 </script>
 
 <template>
+
+    <div class='absolute inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-[1920px] sm:h-[1200px]' style="background: linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)"></div>
+
+
   <div class="flex flex-row h-full" >
     <draggable
         v-for="card_row in cards"
@@ -185,9 +196,9 @@ function updateColumnCount() {
           <PopoverRoot v-model:open="element['modal_open']">
             <PopoverTrigger
                 :class="'w-['+ card_width +'px] overflow-hidden rounded-[16px]'">
-              <AspectRatio :ratio="element['ratio']">
+              <AspectRatio :ratio="element['ratio']" >
                 <img
-                    :class="'h-full w-full ' + element['fit_option']  "
+                    :class="'h-full w-full bg-slate-50 ' + element['fit_option']"
                     :src="element['src']"
                     alt="alt"
                 >
