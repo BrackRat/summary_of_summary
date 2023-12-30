@@ -19,11 +19,6 @@ const footerNavs = [
 
 <template>
 
-
-
-
-
-
   <router-view></router-view>
 
   <div>

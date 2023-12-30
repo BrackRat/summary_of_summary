@@ -12,45 +12,6 @@ import draggable from "vuedraggable";
 const toggleGroupItemClasses
     = 'hover:bg-green3 text-mauve11 data-[state=on]:bg-green6 data-[state=on]:text-violet12 flex h-[35px] w-[35px] items-center justify-center bg-white text-base leading-4 first:rounded-l last:rounded-r focus:z-10 focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none'
 
-
-const cards = ref([
-  [
-    {
-      ratio: 2,
-      src: "https://logo.stocklight.com/NASDAQ/BILI_original.png",
-      fit_option: 'object-contain',
-      modal_open: false
-    },
-    {
-      ratio: 1 / 2,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
-      fit_option: 'object-cover',
-      modal_open: false
-    },
-  ],
-  [
-    {
-      ratio: 2,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
-      fit_option: 'object-cover',
-      modal_open: false
-    },
-    {
-      ratio: 1 / 2,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
-      fit_option: 'object-cover',
-      modal_open: false
-    },
-    {
-      ratio: 4 / 1,
-      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
-      fit_option: 'object-cover',
-      modal_open: false
-    },
-  ]
-]);
-
-
 const new_card_information = ref({ratio: "2", fit_option: "object-cover"})
 
 const addNewCard = () => {
@@ -133,6 +94,69 @@ const dragOptions = computed(() => {
     ghostClass: "ghost"
   };
 })
+
+const cards = ref([
+  [
+    {
+      ratio: 2,
+      src: "https://logo.stocklight.com/NASDAQ/BILI_original.png",
+      fit_option: 'object-contain',
+      modal_open: false
+    },
+    {
+      ratio: 1 / 2,
+      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      fit_option: 'object-cover',
+      modal_open: false
+    },
+  ],
+  [
+    {
+      ratio: 2,
+      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      fit_option: 'object-cover',
+      modal_open: false
+    },
+    {
+      ratio: 1 / 2,
+      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      fit_option: 'object-cover',
+      modal_open: false
+    },
+    {
+      ratio: 4 / 1,
+      src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+      fit_option: 'object-cover',
+      modal_open: false
+    },
+  ]
+]);
+
+const card_rows = ref(2)
+const card_width = ref(300.0)
+
+function updateColumnCount() {
+  const currentColumnCount = cards.value.length;
+  const newColumnCount = card_rows.value
+  console.log("current:"+currentColumnCount)
+  console.log("newColumnCount:"+newColumnCount)
+  if (newColumnCount > currentColumnCount) {
+    // Add new columns
+    for (let i = currentColumnCount; i < newColumnCount; i++) {
+      cards.value.push([
+        {
+          ratio: 2,
+          src: "https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80",
+          fit_option: 'object-cover',
+          modal_open: false
+        }
+      ]);
+    }
+  } else if (newColumnCount < currentColumnCount) {
+
+    cards.value.splice(newColumnCount);
+  }
+};
 </script>
 
 <template>
@@ -160,7 +184,7 @@ const dragOptions = computed(() => {
              aria-hidden="true">
           <PopoverRoot v-model:open="element['modal_open']">
             <PopoverTrigger
-                class="w-full sm:w-[300px] overflow-hidden rounded-[16px]">
+                :class="'w-['+ card_width +'px] overflow-hidden rounded-[16px]'">
               <AspectRatio :ratio="element['ratio']">
                 <img
                     :class="'h-full w-full ' + element['fit_option']  "
@@ -233,13 +257,13 @@ const dragOptions = computed(() => {
     </draggable>
   </div>
 
-
-  <PopoverRoot v-model:open="modal_open">
+<!-- 编辑列数 -->
+  <PopoverRoot >
     <PopoverTrigger
-        class="rounded-full w-[35px] h-[35px] inline-flex items-center justify-center text-grass11 bg-white shadow-[0_2px_10px] shadow-blackA7 hover:bg-green3 focus:shadow-[0_0_0_2px] focus:shadow-black cursor-default outline-none"
+        class="mr-8 rounded-full w-[35px] h-[35px] inline-flex items-center justify-center text-grass11 bg-white shadow-[0_2px_10px] shadow-blackA7 hover:bg-green3 focus:shadow-[0_0_0_2px] focus:shadow-black cursor-default outline-none"
         aria-label="Update dimensions"
     >
-      <span class="mgc_add_line" style="font-size: 16px"></span>
+      <span class="mgc_edit_4_line" style="font-size: 16px"></span>
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent
@@ -249,44 +273,31 @@ const dragOptions = computed(() => {
       >
         <div class="flex flex-col gap-2.5">
           <p class="text-mauve12 text-[15px] leading-[19px] font-semibold mb-2.5">
-            卡片内容
+            编辑
           </p>
           <fieldset class="flex gap-5 items-center">
-            <label class="text-[13px] text-grass11 w-[75px]" for="ratio"> 宽高比(0.5-6) </label>
+            <label class="text-[13px] text-grass11 w-[75px]" for="ratio"> 列数 </label>
             <input
                 id="ratio"
                 class="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-grass11 shadow-[0_0_0_1px] shadow-green7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-green8 outline-none"
                 defaultValue="2.0"
-                v-model="new_card_information.ratio"
+                v-model="card_rows"
             >
           </fieldset>
           <fieldset class="flex gap-5 items-center">
-            <label class="text-[13px] text-grass11 w-[75px]" for="imageInput"> 图片 </label>
+            <label class="text-[13px] text-grass11 w-[75px]" for="width"> 图片宽度(px) </label>
             <input
-                id="imageInput"
-                type="file"
-                accept="image/*"
-                @change="handleImageChange(new_card_information, $event)"
-                class="w-full bg-white text-grass11 font-semibold hover:bg-white/90 shadow-sm inline-flex  items-center justify-center rounded-[4px] px-[15px] leading-none outline-none focus:shadow-[0_0_0_2px] focus:shadow-black transition-all"
+                id="ratio"
+                class="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-grass11 shadow-[0_0_0_1px] shadow-green7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-green8 outline-none"
+                defaultValue="2.0"
+                v-model="card_width"
             >
           </fieldset>
-          <fieldset class="flex gap-5 items-center">
-            <label class="text-[13px] text-grass11 w-[75px]" for="fitOption"> 图片样式 </label>
 
-            <ToggleGroupRoot v-model="new_card_information.fit_option" class="flex">
-              <ToggleGroupItem value="object-cover" aria-label="Toggle italic" :class="toggleGroupItemClasses">
-                <span class="mgc_fullscreen_2_line"></span>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="object-contain" aria-label="Toggle italic" :class="toggleGroupItemClasses">
-                <span class="mgc_fullscreen_exit_2_line"></span>
-              </ToggleGroupItem>
-            </ToggleGroupRoot>
-
-          </fieldset>
           <div
               class="text-grass11 bg-grass4 hover:bg-grass5 focus:shadow-red7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none outline-none focus:shadow-[0_0_0_2px]"
-              @click="addNewCard()">
-            <span class="mgc_add_line"></span>
+              @click="updateColumnCount()">
+            <span class="mgc_save_2_line"></span>
           </div>
         </div>
         <PopoverClose
