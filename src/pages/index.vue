@@ -167,11 +167,7 @@ function updateColumnCount() {
 </script>
 
 <template>
-
-    <div class='absolute inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-[1920px] sm:h-[1200px]' style="background: linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)"></div>
-
-
-  <div class="flex flex-row h-full" >
+    <div class="flex flex-row h-full" >
     <draggable
         v-for="card_row in cards"
         class="flex flex-col h-full mr-2"
@@ -195,7 +191,7 @@ function updateColumnCount() {
              aria-hidden="true">
           <PopoverRoot v-model:open="element['modal_open']">
             <PopoverTrigger
-                :class="'w-['+ card_width +'px] overflow-hidden rounded-[16px]'">
+                :class="'w-[300px] overflow-hidden rounded-[16px]'">
               <AspectRatio :ratio="element['ratio']" >
                 <img
                     :class="'h-full w-full bg-slate-50 ' + element['fit_option']"
@@ -388,6 +384,7 @@ function updateColumnCount() {
     </PopoverPortal>
   </PopoverRoot>
 
+<!--  <div class='absolute inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-[1920px] sm:h-[1200px]' style="background: linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)"></div>-->
 
 </template>
 
